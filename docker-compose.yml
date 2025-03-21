@@ -34,7 +34,7 @@ services:
       context: ./backend/student-service
       dockerfile: Dockerfile
     ports:
-      - "3001:3000"
+      - "3001:3001"
     depends_on:
       postgres:
         condition: service_healthy
@@ -42,7 +42,7 @@ services:
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/student_management
       NODE_ENV: development
     command: >
-      sh -c "npx prisma migrate deploy && npm start"
+      sh -c "npx prisma generate && npm start"
 
   course-service:
     build:
@@ -57,7 +57,7 @@ services:
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/student_management
       NODE_ENV: development
     command: >
-      sh -c "npx prisma migrate deploy && npm start"
+      sh -c "npx prisma generate && npm start"
 
   enrollment-service:
     build:
@@ -72,7 +72,7 @@ services:
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/student_management
       NODE_ENV: development
     command: >
-      sh -c "npx prisma migrate deploy && npm start"
+      sh -c "npx prisma generate&& npm start"
 
   gateway:
     build:
