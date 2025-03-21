@@ -1,0 +1,94 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: student_management
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  student-service:
+    build:
+      context: ./backend/student-service
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/student_management
+      NODE_ENV: development
+    command: >
+      sh -c "npx prisma migrate deploy && npm start"
+
+  course-service:
+    build:
+      context: ./backend/course-service
+      dockerfile: Dockerfile
+    ports:
+      - "3002:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/student_management
+      NODE_ENV: development
+    command: >
+      sh -c "npx prisma migrate deploy && npm start"
+
+  enrollment-service:
+    build:
+      context: ./backend/enrollment-service
+      dockerfile: Dockerfile
+    ports:
+      - "3003:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/student_management
+      NODE_ENV: development
+    command: >
+      sh -c "npx prisma migrate deploy && npm start"
+
+  gateway:
+    build:
+      context: ./backend/gateway
+      dockerfile: Dockerfile
+    ports:
+      - "3005:3000"
+    depends_on:
+      - student-service
+      - course-service
+      - enrollment-service
+    environment:
+      STUDENT_SERVICE_URL: http://student-service:3000
+      COURSE_SERVICE_URL: http://course-service:3000
+      ENROLLMENT_SERVICE_URL: http://enrollment-service:3000
+      NODE_ENV: development
+
+volumes:
+  postgres_data:
