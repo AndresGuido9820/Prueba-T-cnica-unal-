@@ -49,7 +49,7 @@ services:
       context: ./backend/course-service
       dockerfile: Dockerfile
     ports:
-      - "3002:3000"
+      - "3002:3002"
     depends_on:
       postgres:
         condition: service_healthy
@@ -64,7 +64,7 @@ services:
       context: ./backend/enrollment-service
       dockerfile: Dockerfile
     ports:
-      - "3003:3000"
+      - "3003:3003"
     depends_on:
       postgres:
         condition: service_healthy
@@ -85,9 +85,9 @@ services:
       - course-service
       - enrollment-service
     environment:
-      STUDENT_SERVICE_URL: http://student-service:3000
-      COURSE_SERVICE_URL: http://course-service:3000
-      ENROLLMENT_SERVICE_URL: http://enrollment-service:3000
+      STUDENT_SERVICE_URL: http://student-service:3001
+      COURSE_SERVICE_URL: http://course-service:3002
+      ENROLLMENT_SERVICE_URL: http://enrollment-service:3003
       NODE_ENV: development
 
 volumes:

@@ -24,7 +24,7 @@ FOR EACH ROW
 EXECUTE FUNCTION update_updatedAt_column();
 
 
-CREATE TABLE course (
+CREATE TABLE Course (
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
     description TEXT,
