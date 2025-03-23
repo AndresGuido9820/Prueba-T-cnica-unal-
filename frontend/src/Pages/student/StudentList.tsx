@@ -19,7 +19,7 @@ import {
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { getStudents, deleteStudent } from '../../Service/api.ts';
+import { getStudents, deleteStudent, getStudentDetails } from '../../Service/api.ts';
 
 interface Student {
   id: number;

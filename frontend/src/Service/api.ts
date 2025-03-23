@@ -6,9 +6,18 @@ const API_URL = 'http://localhost:3005/api'
 
 // Student service
 export const getStudents = async () => {
-  const response = await axios.get(`${API_URL}/students`);
-  return response.data;
-};
+    try {
+      const response = await axios.get(`${API_URL}/students`);
+      console.log("Datos recibidos:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Error en la petición:", error);
+      if (error.response) {
+        console.error("Respuesta del servidor:", error.response.data);
+      }
+      throw error;
+    }
+  };
 
 export const getStudentById = async (id: number) => {
   const response = await axios.get(`${API_URL}/students/${id}`);
@@ -62,6 +71,7 @@ export const deleteCourse = async (id: number) => {
 };
 
 export const updateCourseCapacity = async (id: number, capacity: number) => {
+  console.log("holaaaaaaaa")
   const response = await axios.put(`${API_URL}/courses/${id}/capacity`, { capacity });
   return response.data;
 };
@@ -96,3 +106,4 @@ export const deleteEnrollment = async (studentId: number, courseId: number) => {
   const response = await axios.delete(`${API_URL}/enrollments/${studentId}/${courseId}`);
   return response.data;
 };
+

@@ -10,7 +10,7 @@ import {
   CircularProgress,
   Grid,
 } from '@mui/material';
-import { getStudents, getCourses, getEnrollments} from '../../Service/api.ts'; // Asegúrate de importar tu servicio de API
+import { getStudents, getCourses, createEnrollment } from '../../Service/api.ts'; // Asegúrate de importar tu servicio de API
 
 interface EnrollmentFormData {
   studentId: number;
@@ -51,23 +51,41 @@ const EnrollmentForm: React.FC = () => {
   // Maneja cambios en los campos del formulario
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+
     setFormData((prevData) => ({
       ...prevData,
       [name]: Number(value),
     }));
   };
 
-  // Maneja el envío del formulario
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
 
     try {
-      await getEnrollments();
-      navigate('/courses'); // Redirige a la lista de cursos después de inscribir
+      // Buscar el curso seleccionado
+      const selectedCourse = courses.find((course) => course.id === formData.courseId);
+
+      if (!selectedCourse) {
+        throw new Error('Curso no encontrado');
+      }
+
+      // Crear objeto con datos adicionales
+      const enrollmentData = {
+        ...formData,
+        capacity: selectedCourse.capacity,
+      };
+
+      console.log(enrollmentData);
+
+      // Intentar inscribir al estudiante
+      await createEnrollment(enrollmentData);
+      navigate('/courses'); // Redirigir a la lista de cursos después de la inscripción
     } catch (err) {
-      setError('Error al inscribir al estudiante.');
+      // Capturar el mensaje de error del backend
+      const errorMessage = err.response?.data?.message || err.message || 'Error al inscribir al estudiante.';
+      setError(errorMessage); // Mostrar el mensaje de error en la interfaz
     } finally {
       setLoading(false);
     }

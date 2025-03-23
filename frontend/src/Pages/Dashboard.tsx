@@ -128,14 +128,8 @@ const Dashboard: React.FC = () => {
             >
               View All Courses
             </Button>
-            <Button
-              variant="outlined"
-              component={RouterLink}
-              to="/courses/new"
-            >
-              Add Course
-            </Button>
-            <Divider sx={{ my: 2 }} />
+           
+          <Divider sx={{ my: 2 }} />
             <Typography variant="subtitle1">Recent Courses:</Typography>
             <List dense>
               {courses.slice(0, 5).map((course) => (
@@ -176,15 +170,7 @@ const Dashboard: React.FC = () => {
                   Register Student
                 </Button>
               </Grid>
-              <Grid item>
-                <Button
-                  variant="contained"
-                  component={RouterLink}
-                  to="/courses/new"
-                >
-                  Create Course
-                </Button>
-              </Grid>
+            
               <Grid item>
                 <Button
                   variant="contained"

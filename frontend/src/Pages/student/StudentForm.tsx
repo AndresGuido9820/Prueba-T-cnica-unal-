@@ -22,7 +22,7 @@ interface StudentFormData {
   address?: string; // Opcional
   dateOfBirth?: string; // Opcional, en formato ISO (YYYY-MM-DD)
   gender?: 'Male' | 'Female' | 'Other'; // Opcional
-  enrollmentDate?: string; // Opcional, en formato ISO (YYYY-MM-DD)
+  enrollmentDate?: Date; // Opcional, en formato ISO (YYYY-MM-DD)
   status?: 'Active' | 'Inactive'; // Opcional
 }
 
@@ -71,20 +71,26 @@ const StudentForm: React.FC = () => {
     setError(null);
 
     try {
-      if (id) {
-        // Modo de actualización
-        await updateStudent(Number(id), formData);
-      } else {
-        // Modo de creación
-        await createStudent(formData);
+        const dataToSend = {
+          ...formData,
+          enrollmentDate: formData.enrollmentDate 
+            ? new Date(`${formData.enrollmentDate}T00:00:00Z`)  // ✅ Convertir a Date
+            : undefined,
+        };
+    
+        if (id) {
+          await updateStudent(Number(id), dataToSend);
+        } else {
+          await createStudent(dataToSend);
+        }
+    
+        navigate('/students');
+      } catch (err) {
+        setError('Error al guardar los datos del estudiante.');
+      } finally {
+        setLoading(false);
       }
-      navigate('/students'); // Redirige a la lista de estudiantes después de guardar
-    } catch (err) {
-      setError('Error al guardar los datos del estudiante.');
-    } finally {
-      setLoading(false);
-    }
-  };
+    };
 
   return (
     <Paper elevation={3} sx={{ padding: 3, maxWidth: 600, margin: 'auto' }}>

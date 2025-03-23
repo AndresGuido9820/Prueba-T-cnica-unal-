@@ -10,7 +10,7 @@ import {
   CircularProgress,
   Grid,
 } from '@mui/material';
-import { getCourseById, createCourse, updateCourse } from '../../Service/api.ts'; // Asegúrate de importar tu servicio de API
+import { getCourseById, updateCourseCapacity } from '../../Service/api.ts'; // Asegúrate de importar tu servicio de API
 
 interface CourseFormData {
   id?: number;
@@ -37,7 +37,7 @@ const CourseForm: React.FC = () => {
         setLoading(true);
         try {
           const course = await getCourseById(Number(id));
-          setFormData(course);
+          setFormData(course); // Cargar los datos del curso
         } catch (err) {
           setError('Error al cargar los datos del curso.');
         } finally {
@@ -48,12 +48,12 @@ const CourseForm: React.FC = () => {
     }
   }, [id]);
 
-  // Maneja cambios en los campos del formulario
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+  // Maneja cambios en el campo de capacidad
+  const handleCapacityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      capacity: Number(value),
     }));
   };
 
@@ -65,13 +65,9 @@ const CourseForm: React.FC = () => {
 
     try {
       if (id) {
-        // Modo de actualización
-        await updateCourse(Number(id), formData);
-      } else {
-        // Modo de creación
-        await createCourse(formData);
+        await updateCourseCapacity(Number(id), Number(formData.capacity));
+        navigate('/courses'); // Redirige a la lista de cursos después de guardar
       }
-      navigate('/courses'); // Redirige a la lista de cursos después de guardar
     } catch (err) {
       setError('Error al guardar los datos del curso.');
     } finally {
@@ -82,32 +78,44 @@ const CourseForm: React.FC = () => {
   return (
     <Paper elevation={3} sx={{ padding: 3, maxWidth: 600, margin: 'auto', mt: 4 }}>
       <Typography variant="h4" gutterBottom>
-        {id ? 'Editar Curso' : 'Crear Curso'}
+        Editar Cupos del Curso
       </Typography>
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
+          {/* Campo Nombre (no editable) */}
           <Grid item xs={12}>
             <TextField
               fullWidth
               label="Nombre"
               name="name"
               value={formData.name}
-              onChange={handleChange}
-              required
+              InputProps={{
+                readOnly: true,
+                sx: { backgroundColor: '#f5f5f5' }, // Fondo gris
+              }}
+              helperText="Disponible solo para profesores"
             />
           </Grid>
+
+          {/* Campo Descripción (no editable) */}
           <Grid item xs={12}>
             <TextField
               fullWidth
               label="Descripción"
               name="description"
               value={formData.description || ''}
-              onChange={handleChange}
+              InputProps={{
+                readOnly: true,
+                sx: { backgroundColor: '#f5f5f5' }, // Fondo gris
+              }}
               multiline
               rows={4}
+              helperText="Disponible solo para profesores"
             />
           </Grid>
+
+          {/* Campo Capacidad (editable) */}
           <Grid item xs={12}>
             <TextField
               fullWidth
@@ -115,7 +123,7 @@ const CourseForm: React.FC = () => {
               name="capacity"
               type="number"
               value={formData.capacity}
-              onChange={handleChange}
+              onChange={handleCapacityChange}
               required
             />
           </Grid>
@@ -127,7 +135,7 @@ const CourseForm: React.FC = () => {
             color="primary"
             disabled={loading}
           >
-            {loading ? <CircularProgress size={24} /> : 'Guardar'}
+            {loading ? <CircularProgress size={24} /> : 'Guardar Cambios'}
           </Button>
         </Box>
       </form>

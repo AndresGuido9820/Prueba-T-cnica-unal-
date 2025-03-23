@@ -1,12 +1,18 @@
-CREATE TABLE IF NOT EXISTS Student (
+CREATE TABLE IF NOT EXISTS student (
     id SERIAL PRIMARY KEY,
     firstName VARCHAR(255) NOT NULL,
     lastName VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
+    phone VARCHAR(20), -- Nuevo campo opcional
+    address VARCHAR(255), -- Nuevo campo opcional
     dateOfBirth TIMESTAMP,
+    gender VARCHAR(10), -- Nuevo campo opcional
+    enrollmentDate TIMESTAMP, -- Nuevo campo opcional
+    status VARCHAR(10), -- Nuevo campo opcional
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
 
 -- Crear función para actualizar el campo updatedAt
 CREATE OR REPLACE FUNCTION update_updatedAt_column()
