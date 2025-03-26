@@ -117,6 +117,13 @@ cd frontend && npm start
 ```
 Administrar la base de datos:
 http://localhost:5050 (pgAdmin)
+pgAdmin: 5050 (accesible en http://localhost:5050, usuario: admin@admin.com, contraseña: admin)
+Adicionalmente los puertos de los demás servicios:
+PostgreSQL: 5432
+Student Service: 3001
+Course Service: 3002
+Enrollment Service: 3003
+Gateway: 3005 (accesible en http://localhost:3005)
 
 
 ---
