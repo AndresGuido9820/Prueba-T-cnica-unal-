@@ -71,20 +71,17 @@ npm run start
 
 
 ```markdown
-| Carpeta/Archivo          | Descripción                              |
-|--------------------------|------------------------------------------|
-| **backend/**             | Microservicios y API Gateway             |
-| ├── course-service/      | Lógica de gestión de cursos              |
-| ├── enrollment-service/  | Manejo de inscripciones                  |
-| ├── gateway/             | Enrutamiento de solicitudes              |
-| ├── postgres/            | Scripts SQL y configuración de PostgreSQL|
-| └── student-service/     | CRUD de estudiantes                      |
-| **frontend/**            | Aplicación React                         |
-| ├── src/                 | Componentes y lógica frontend            |
-| ├── public/              | Archivos estáticos (HTML, imágenes)      |
-| └── package.json         | Dependencias y scripts                   |
-| docker-compose.yml       | Configuración de contenedores Docker     |
-| README.md                | Documentación principal                  |
+Prueba-Técnica-UNAL/
+├── backend
+│   ├── course-service
+│   ├── enrollment-service
+│   ├── gateway
+│   ├── postgres
+│   └── student-service
+└── frontend
+    ├── node_modules
+    ├── public
+    └── src
 ```
 
 
