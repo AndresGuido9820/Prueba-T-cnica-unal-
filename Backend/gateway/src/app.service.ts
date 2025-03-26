@@ -2,6 +2,8 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import axios from 'axios';
 
+
+
 @Injectable()
 export class AppService {
   private studentServiceUrl: string;
@@ -9,16 +11,16 @@ export class AppService {
   private enrollmentServiceUrl: string;
 
   constructor() {
-    this.studentServiceUrl = 'http://student-service:3001';
+    this.studentServiceUrl = process.env.STUDENT_SERVICE_URL ||'http://student-service:3001';
     this.courseServiceUrl = process.env.COURSE_SERVICE_URL || 'http://course-service:3002';
     this.enrollmentServiceUrl = process.env.ENROLLMENT_SERVICE_URL || 'http://localhost:3003';
   }
 
-  // Student service methods
+
   async getAllStudents() {
-    console.log("2")
+    
     try {
-      console.log("3");
+      
       console.log(this.studentServiceUrl);
       const response = await axios.get(`${this.studentServiceUrl}/students`);
       console.log(response.data);
@@ -39,7 +41,7 @@ export class AppService {
 
   async createStudent(createStudentDto: any) {
     try {
-      console.log("jajajajaj")
+  
       const response = await axios.post(`${this.studentServiceUrl}/students`, createStudentDto);
       return response.data;
     } catch (error) {
@@ -67,9 +69,9 @@ export class AppService {
 
   // Course service methods
   async getAllCourses() {
-    console.log("2")
+   
     try {
-      console.log("3")
+  
       const response = await axios.get(`${this.courseServiceUrl}/courses`);
       return response.data;
     } catch (error) {
@@ -95,7 +97,7 @@ export class AppService {
     }
   }
 
-  async updateCourse(id: number, updateCourseDto: any) {
+  async updateCourse(id: number, updateCourseDto: any) {//dto  
     try {
       const response = await axios.put(`${this.courseServiceUrl}/courses/${id}`, updateCourseDto);
       return response.data;
@@ -117,9 +119,9 @@ export class AppService {
     try {
       const response = await axios.put(`${this.courseServiceUrl}/courses/${id}`, { capacity });
       
-      // Also update capacity in enrollment service
+    
       const res2=await axios.put(`${this.enrollmentServiceUrl}/enrollments/course/${id}`, { capacity });
-      console.log(`holaaaaaaaaaaa${res2}`)
+    
       
       return response.data;
     } catch (error) {
@@ -173,7 +175,7 @@ export class AppService {
     }
   }
 
-  // Comprehensive views
+
   async getStudentDetails(studentId: number) {
     try {
       // Get student basic info

@@ -1,4 +1,4 @@
-// backend/enrollment-service/src/enrollment/enrollment.service.ts
+
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CreateEnrollmentDto, CreateEnrrollmentCountDto} from './dto/create-enrollment.dto';
@@ -8,13 +8,13 @@ export class EnrollmentService {
   constructor(private prisma: PrismaService) {}
 
   async create(createEnrollmentDto: CreateEnrollmentDto) {
-    // Check if course is at capacity
+
     const courseEnrollment = await this.prisma.courseEnrollmentCount.findUnique({
       where: { courseId: createEnrollmentDto.courseId },
     });
 
     if (!courseEnrollment) {
-      // If no record exists, create one
+  
       await this.prisma.courseEnrollmentCount.create({
         data: {
           courseId: createEnrollmentDto.courseId,
@@ -26,7 +26,7 @@ export class EnrollmentService {
       throw new Error('Course is full');
     }
 
-    // Create enrollment and increment count in a transaction
+  
     return this.prisma.$transaction(async (prisma) => {
       const { capacity, ...enrollmentData } = createEnrollmentDto; 
       const enrollment = await prisma.enrollment.create({
@@ -39,7 +39,7 @@ export class EnrollmentService {
         create: {
           courseId: createEnrollmentDto.courseId,
           count: 1,
-          capacity: 30, // Default capacity
+          capacity: 30, 
         },
       });
 
@@ -64,7 +64,7 @@ export class EnrollmentService {
   }
 
   async remove(studentId: number, courseId: number) {
-    // Delete enrollment and decrement count in a transaction
+   
     return this.prisma.$transaction(async (prisma) => {
       const enrollment = await prisma.enrollment.delete({
         where: {

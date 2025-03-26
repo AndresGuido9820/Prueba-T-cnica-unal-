@@ -1,6 +1,46 @@
 // backend/gateway/src/app.controller.ts
 import { Controller, Get, Post, Put, Delete, Param, Body, BadRequestException } from '@nestjs/common';
 import { AppService } from './app.service';
+import { IsNotEmpty, IsNumber,IsInt,Min,IsOptional, IsString,  } from 'class-validator';
+
+ class CreateEnrollmentDto {
+  @IsNotEmpty()
+  @IsNumber()
+  studentId: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  courseId: number;
+
+  @IsInt()
+  @Min(1)
+  capacity: number;
+
+
+}
+
+class CreateCourseDto {
+  @IsNotEmpty()
+  @IsString()
+  name: string;
+
+  @IsOptional()
+  @IsString()
+  description?: string;
+
+  @IsOptional()
+  @IsNumber()
+  @Min(1)
+  capacity?: number;
+}
+
+
+
+
+
+
+
+
 
 @Controller()
 export class AppController {
@@ -9,7 +49,7 @@ export class AppController {
   // Student endpoints
   @Get('students')
   async getAllStudents() {
-    console.log("holaaaaaaaaaaaaaaaaa")
+    
     return this.appService.getAllStudents();
   }
 
@@ -46,12 +86,12 @@ export class AppController {
   }
 
   @Post('courses')
-  async createCourse(@Body() createCourseDto: any) {
+  async createCourse(@Body() createCourseDto: CreateCourseDto) {
     return this.appService.createCourse(createCourseDto);
   }
 
   @Put('courses/:id')
-  async updateCourse(@Param('id') id: string, @Body() updateCourseDto: any) {
+  async updateCourse(@Param('id') id: string, @Body() updateCourseDto: CreateCourseDto) {
     return this.appService.updateCourse(+id, updateCourseDto);
   }
 
@@ -63,7 +103,7 @@ export class AppController {
 }
 @Put('courses/:id/capacity')
   async updateCourseCapacity(@Param('id') id: string, @Body('capacity') capacity: number) {
-    console.log("aaaaaaaaaaaaaaaaaaaaaaaaa")
+
     return this.appService.updateCourseCapacity(+id, capacity);
   }
 
@@ -84,7 +124,7 @@ export class AppController {
   }
 
   @Post('enrollments')
-  async createEnrollment(@Body() createEnrollmentDto: any) {
+  async createEnrollment(@Body() createEnrollmentDto: CreateEnrollmentDto) {//tipar con dto 
     try {
       console.log(createEnrollmentDto);
       return await this.appService.createEnrollment(createEnrollmentDto);
@@ -101,7 +141,6 @@ export class AppController {
     return this.appService.deleteEnrollment(+studentId, +courseId);
   }
 
-  // Comprehensive views
   @Get('student-details/:id')
   async getStudentDetails(@Param('id') id: string) {
     return this.appService.getStudentDetails(+id);
@@ -113,4 +152,4 @@ export class AppController {
   }
 
 
-}//llllll
+}
