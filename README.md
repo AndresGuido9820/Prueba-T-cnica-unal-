@@ -71,17 +71,21 @@ npm run start
 
 
 ```markdown
-Prueba-Técnica-UNAL/
-├── backend
-│   ├── course-service
-│   ├── enrollment-service
-│   ├── gateway
-│   ├── postgres
-│   └── student-service
-└── frontend
-    ├── node_modules
-    ├── public
-    └── src
+Prueba-T-cnica-unal-/
+├── backend/               # Carpeta con los microservicios y el Gateway
+│   ├── course-service/    # Microservicio para gestionar cursos
+│   ├── enrollment-service/ # Microservicio para gestionar inscripciones
+│   ├── gateway/           # API Gateway que enruta las solicitudes
+│   ├── postgres/          # Scripts de inicialización de la base de datos
+│   └── student-service/   # Microservicio para gestionar estudiantes
+├── frontend/              # Frontend en Node.js (probablemente React)
+│   ├── node_modules/      # Dependencias del frontend
+│   ├── public/            # Archivos públicos del frontend
+│   ├── src/               # Código fuente del frontend
+│   ├── package.json       # Dependencias y scripts del frontend
+│   └── package-lock.json  # Lockfile del frontend
+├── docker-compose.yml     # Configuración de Docker Compose
+└── README.md              
 ```
 
 
