@@ -1,0 +1,20 @@
+
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model course {
+  id          Int      @id @default(autoincrement()) @map("id")
+  name        String   @map("name")
+  description String?  @map("description")
+  capacity    Int      @default(30) @map("capacity")
+  createdAt   DateTime @default(now()) @map("createdat")
+  updatedAt   DateTime @updatedAt @map("updatedat")
+
+}

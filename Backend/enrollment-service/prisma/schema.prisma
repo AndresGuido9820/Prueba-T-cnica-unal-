@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Enrollment {
+  id         Int      @id @default(autoincrement()) @map("id")
+  studentId  Int      @map("studentid")  // Capitalizado en el modelo
+  courseId   Int      @map("courseid")   // Capitalizado en el modelo
+  enrolledAt DateTime @default(now()) @map("enrolledat")
+  updatedAt  DateTime @updatedAt @map("updatedat")
+
+  @@unique([studentId, courseId])
+  @@map("enrollment") // Mapeo del nombre de la tabla en minúsculas
+}
+
+model CourseEnrollmentCount {
+  id        Int      @id @default(autoincrement()) @map("id")
+  courseId  Int      @unique @map("courseid") // Capitalizado en el modelo
+  count     Int      @default(0) @map("count")
+  capacity  Int      @default(30) @map("capacity")
+  updatedAt DateTime @updatedAt @map("updatedat")
+
+  @@map("courseenrollmentcount") // Mapeo del nombre de la tabla en minúsculas
+}
+
