@@ -62,7 +62,10 @@ npm run start
 
 
 
-# Estructura del Proyecto
+
+
+## Estructura del Proyecto
+
 Prueba-Técnica-unal/
 ├── backend/ # Carpeta con los microservicios y el Gateway
 │ ├── course-service/ # Microservicio para gestionar cursos
@@ -70,46 +73,52 @@ Prueba-Técnica-unal/
 │ ├── gateway/ # API Gateway que enruta las solicitudes
 │ ├── postgres/ # Scripts de inicialización de la base de datos
 │ └── student-service/ # Microservicio para gestionar estudiantes
-├── frontend/ # Frontend en Node.js (probablemente React)
+├── frontend/ # Frontend en Node.js (React)
 │ ├── node_modules/ # Dependencias del frontend
 │ ├── public/ # Archivos públicos del frontend
 │ ├── src/ # Código fuente del frontend
 │ ├── package.json # Dependencias y scripts del frontend
 │ └── package-lock.json # Lockfile del frontend
 ├── docker-compose.yml # Configuración de Docker Compose
-└── README.md # Este archivo
+└── README.md # Documentación del proyecto
 
-Detalles Técnicos
-Base de Datos: Los microservicios comparten una base de datos PostgreSQL (student_management). Esto se hizo para simplificar el entorno local y reducir el uso de recursos. En un entorno de producción, se recomienda usar bases de datos separadas para cada microservicio.
 
-Inicialización de la Base de Datos: El script init.sql en backend/postgres/init-scripts/ se ejecuta al iniciar el contenedor de PostgreSQL para crear las tablas necesarias.
 
-Prisma: Los microservicios usan Prisma como ORM para interactuar con la base de datos (se ejecuta npx prisma generate en el docker-compose.yml).
 
-Gateway: El Gateway enruta las solicitudes a los microservicios usando las URLs definidas en las variables de entorno (STUDENT_SERVICE_URL, COURSE_SERVICE_URL, ENROLLMENT_SERVICE_URL).
+## Detalles Técnicos
 
-Limitaciones: La base de datos compartida puede generar cuellos de botella en un entorno real. Para escalar, considera usar colas de mensajes (como RabbitMQ) y bases de datos independientes.
+### Base de Datos
+- Los microservicios comparten una base de datos PostgreSQL (`student_management`)
+- En producción se recomienda usar bases de datos separadas para cada microservicio, se uso así porque el contenedor estaba quedando muy pesado para mi computador 
 
-Uso
-Inicia los microservicios y la base de datos:
+### Inicialización
+- El script `init.sql` en `backend/postgres/init-scripts/` crea las tablas necesarias al iniciar el contenedor
 
-bash
-Copy
+### Tecnologías
+- **Prisma**: ORM para interactuar con la base de datos
+- **Gateway**: Enruta solicitudes usando variables de entorno:
+  - `STUDENT_SERVICE_URL`
+  - `COURSE_SERVICE_URL` 
+  - `ENROLLMENT_SERVICE_URL`
+
+## Cómo Usar
+
+1. Iniciar los servicios:
+```bash
 docker-compose up --build
-Inicia el frontend:
-
-bash
-Copy
-cd frontend && npm run start
-Accede al frontend en http://localhost:3000.
-
-(Opcional) Administra la base de datos con pgAdmin en http://localhost:5050.
-
-Copy
-
-Nota: He corregido algunos pequeños errores tipográficos que encontré en el texto original (como "docker-compose.yml" que estaba escrito como "docker-compose.yml"). El formato Markdown hará que tu README se vea mucho más profesional y organizado en GitHub u otras plataforma
+```
+```bash
+cd frontend && npm start
+```
+Administrar la base de datos:
+http://localhost:5050 (pgAdmin)
 
 
+---
+**Autor**: [Andrés Felipe Guido Montoya]  
+**GitHub**: [@guidomontoya12](https://github.com/guidomontoya12)  
+**Fecha**: 2025  
+---
 
 
 
