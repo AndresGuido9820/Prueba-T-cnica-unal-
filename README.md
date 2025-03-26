@@ -66,22 +66,26 @@ npm run start
 
 ## Estructura del Proyecto
 
-Prueba-Técnica-unal/
-├── backend/ # Carpeta con los microservicios y el Gateway
-│ ├── course-service/ # Microservicio para gestionar cursos
-│ ├── enrollment-service/ # Microservicio para gestionar inscripciones
-│ ├── gateway/ # API Gateway que enruta las solicitudes
-│ ├── postgres/ # Scripts de inicialización de la base de datos
-│ └── student-service/ # Microservicio para gestionar estudiantes
-├── frontend/ # Frontend en Node.js (React)
-│ ├── node_modules/ # Dependencias del frontend
-│ ├── public/ # Archivos públicos del frontend
-│ ├── src/ # Código fuente del frontend
-│ ├── package.json # Dependencias y scripts del frontend
-│ └── package-lock.json # Lockfile del frontend
-├── docker-compose.yml # Configuración de Docker Compose
-└── README.md # Documentación del proyecto
 
+---
+
+
+```markdown
+| Carpeta/Archivo          | Descripción                              |
+|--------------------------|------------------------------------------|
+| **backend/**             | Microservicios y API Gateway             |
+| ├── course-service/      | Lógica de gestión de cursos              |
+| ├── enrollment-service/  | Manejo de inscripciones                  |
+| ├── gateway/             | Enrutamiento de solicitudes              |
+| ├── postgres/            | Scripts SQL y configuración de PostgreSQL|
+| └── student-service/     | CRUD de estudiantes                      |
+| **frontend/**            | Aplicación React                         |
+| ├── src/                 | Componentes y lógica frontend            |
+| ├── public/              | Archivos estáticos (HTML, imágenes)      |
+| └── package.json         | Dependencias y scripts                   |
+| docker-compose.yml       | Configuración de contenedores Docker     |
+| README.md                | Documentación principal                  |
+```
 
 
 
